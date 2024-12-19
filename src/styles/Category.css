@@ -1,0 +1,29 @@
+.category-box {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: #fff;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .category-title {
+    margin-bottom: 16px;
+    font-weight: bold;
+  }
+  
+  .category-item {
+    border: 1px solid #ddd;
+    margin-bottom: 8px;
+    padding: 8px;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    display: flex;
+    align-items: center;
+  }
+  
+  .subcategory-item {
+    padding-left: 32px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+  
