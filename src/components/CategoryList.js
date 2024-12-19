@@ -22,7 +22,7 @@ const CategoryList = ({ categories, onCategorySelect }) => {
 
 // Handles the selection of a subcategory and calls the parent callback function
   const handleSubcategorySelect = (category, subcategory) => {
-    setSelectedSubcategory(subcategory);
+    setSelectedSubcategory({ categoryId: category.id, subcategoryId: subcategory.id });
     onCategorySelect(category, subcategory);
   };
 
@@ -56,7 +56,9 @@ const CategoryList = ({ categories, onCategorySelect }) => {
             >
               <List component='div' disablePadding>
                 {category.subcategories?.map((subcategory) => {
-                  const isSelected = selectedSubcategory?.id === subcategory.id;
+                  const isSelected =
+                    selectedSubcategory?.categoryId === category.id &&
+                    selectedSubcategory?.subcategoryId === subcategory.id;
                   return (
                     <ListItem
                       key={subcategory.id}
