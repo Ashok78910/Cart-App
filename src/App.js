@@ -11,14 +11,15 @@ const App = () => {
   const [selectedSubcategory, setSelectedSubcategory] = useState(null);
   const [cartItems, setCartItems] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [openCartConfirmation, setOpenCartConfirmation] = useState(false);
 
-//function to handle category select
+  //function to handle category select
   const handleCategorySelect = (category, subcategory) => {
     setSelectedCategory(category);
     setSelectedSubcategory(subcategory);
   };
 
-//function to add items into the cart
+  //function to add items into the cart
   const handleAddToCart = (item, category, subcategory) => {
     const isItemInCart = cartItems.some(
       (cartItem) =>
@@ -32,23 +33,28 @@ const App = () => {
         ...prevItems,
         { ...item, category, subcategory },
       ]);
+      localStorage.setItem("cart_item", JSON.stringify([
+        ...cartItems,
+        { ...item, category, subcategory },
+      ]));
+      setOpenCartConfirmation(false);
     }
   };
 
-//function to remove items from the cart
+  //function to remove items from the cart
   const handleRemoveItem = (itemId) => {
     setCartItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
   };
 
-//handle toggle modal
+  //handle toggle modal
   const handleCartToggle = () => {
-    setIsCartOpen(!isCartOpen); 
+    setIsCartOpen(!isCartOpen);
   };
 
   return (
     <>
       <Navbar cartCount={cartItems.length} onCartClick={handleCartToggle} />
-      <Container maxWidth="lg" sx={{ mt: 4 }}>
+      <Container maxWidth='lg' sx={{ mt: 4 }}>
         <Grid container spacing={2}>
           {/* Sidebar */}
           <Grid item xs={12} md={4}>
@@ -63,12 +69,15 @@ const App = () => {
             {selectedSubcategory ? (
               <ItemGrid
                 subcategory={selectedSubcategory}
-                category={selectedCategory} 
-                cartItems={cartItems} 
+                category={selectedCategory}
+                cartItems={cartItems}
+                setCartItems = {setCartItems}
                 onAddToCart={handleAddToCart}
+                openCartConfirmation={openCartConfirmation}
+                setOpenCartConfirmation={setOpenCartConfirmation}
               />
             ) : (
-              <Typography variant="h6" align="center">
+              <Typography variant='h6' align='center'>
                 Select a category to view items.
               </Typography>
             )}
@@ -77,7 +86,13 @@ const App = () => {
       </Container>
 
       {/* Cart Modal */}
-      <Cart cartItems={cartItems} onRemoveItem={handleRemoveItem} isOpen={isCartOpen} onClose={handleCartToggle} />
+      <Cart
+        cartItems={cartItems}
+        onRemoveItem={handleRemoveItem}
+        isOpen={isCartOpen}
+        onClose={handleCartToggle}
+        setCartItems = {setCartItems}
+      />
     </>
   );
 };

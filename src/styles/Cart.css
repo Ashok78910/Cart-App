@@ -33,3 +33,12 @@
 .cart-remove-button:hover {
   background-color: #ffe6e6;
 }
+
+.confirmation-card-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  max-height: 400px;
+  overflow-y: auto;
+}

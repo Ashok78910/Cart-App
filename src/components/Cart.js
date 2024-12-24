@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -13,7 +13,16 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import "../styles/Cart.css";
 
-const Cart = ({ cartItems, onRemoveItem, isOpen, onClose }) => {
+const Cart = ({ cartItems,setCartItems, onRemoveItem, isOpen, onClose }) => {
+  const cartList = JSON.parse(localStorage.getItem("cart_item"));
+
+
+  useEffect(() => {
+    if (cartList) {
+      setCartItems(cartList);
+    }
+  }, []);
+
   return (
     <Dialog open={isOpen} onClose={onClose} maxWidth='sm' fullWidth>
       <DialogTitle sx={{ padding: "16px 24px", position: "relative" }}>
@@ -27,7 +36,7 @@ const Cart = ({ cartItems, onRemoveItem, isOpen, onClose }) => {
             right: 12,
             top: 8,
             zIndex: 1,
-            fontSize : 10
+            fontSize: 10,
           }}
         >
           <CloseIcon />
@@ -38,7 +47,7 @@ const Cart = ({ cartItems, onRemoveItem, isOpen, onClose }) => {
         <Box className='cart-items-container'>
           {cartItems.length > 0 ? (
             <List>
-              {cartItems.map((item, index) => (
+              {cartItems?.map((item, index) => (
                 <ListItem key={index} className='cart-item'>
                   <ListItemText primary={item.name} />
                   <IconButton

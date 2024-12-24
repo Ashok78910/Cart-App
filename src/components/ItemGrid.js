@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Grid,
   Card,
@@ -7,8 +7,23 @@ import {
   Button,
   Box,
 } from "@mui/material";
+import ConfirmationCard from "./ConfirmationCard";
 
-const ItemGrid = ({ subcategory, onAddToCart, category, cartItems }) => {
+const ItemGrid = ({
+  subcategory,
+  onAddToCart,
+  category,
+  cartItems,
+  openCartConfirmation,
+  setOpenCartConfirmation,
+}) => {
+  const [item, setItem] = useState([]);
+
+  const handleOpenModal = (item) => {
+    setItem(item);
+    setOpenCartConfirmation(true);
+  };
+
   return (
     <Box>
       <Box
@@ -66,7 +81,7 @@ const ItemGrid = ({ subcategory, onAddToCart, category, cartItems }) => {
                     <Button
                       variant='contained'
                       color='success'
-                      onClick={() => onAddToCart(item, category, subcategory)}
+                      onClick={() => handleOpenModal(item)}
                       disabled={isItemInCart}
                     >
                       {isItemInCart ? "Added to cart" : "Add to cart"}
@@ -78,6 +93,12 @@ const ItemGrid = ({ subcategory, onAddToCart, category, cartItems }) => {
           );
         })}
       </Grid>
+
+      <ConfirmationCard
+        onAddToCart={() => onAddToCart(item, category, subcategory)}
+        openCartConfirmation={openCartConfirmation}
+        setOpenCartConfirmation={setOpenCartConfirmation}
+      />
     </Box>
   );
 };
